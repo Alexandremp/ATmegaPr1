@@ -26,21 +26,21 @@
 	  				call ini	
 		teste_sw1:	
 					sbis PINA, 	0
-					jmp p1					;segue para o p1 se clicar em sw1
-					jmp  teste_sw1			;reinicia o teste se não clicar no sw1
-		p1:			ldi r16,0b11111110		;1ºposição
+					jmp p1					;moves to p1 if you click sw1
+					jmp  teste_sw1			;restarts the test if you do not click on sw1 goes to p1 if you click on sw1
+		p1:			ldi r16,0b11111110		;first position
 					out PORTC,r16
-					ldi r17,7					;iniciação do contador de ligar e desligar LEDs sequencialmente
+					ldi r17,7					;start-up of the counter on and off LEDs sequentially
 		cicloROL:	sec
 					call delay500ms
-					rol r16					;movimenta os bits no registo r16 para a esquerda
+					rol r16					;moves the bits in register r16 to the left
 					out PORTC,r16			
-					dec r17					;decrementa o contador
-					brne cicloROL			;deixa passar só quando o contador chegar a 0
-					ldi r16,0b01111111	    ;ultíma posição
+					dec r17					;decrements the counter
+					brne cicloROL			;let pass only when the counter reaches 0
+					ldi r16,0b01111111	    ;Latest Position
 					out PORTC,r16
-					ldi r23,255				;define r23 como 255
-					call delay500ms_2		;se quiser fazer com que a sequência faça o contrario r23 volta 0
+					ldi r23,255				;set r23 to 255
+					call delay500ms_2		;if you want to make the sequence do the opposite r23 returns 0
 					cpi r23,0
 					brne final
 					
