@@ -6,7 +6,7 @@
 
 ;*****
 inicio:
-			ser 	r16 				;led apagado
+			ser 	r16 				;The light of LED is OFF
 			out 	PORTC,r16
 			out		DDRC,r16
 			clr		r16
@@ -19,15 +19,15 @@ inicio:
 
 main:	
 	TEST:
-		sbis PINA, 5	;se PIN A tiver o mesmo valor de SW6= pino 5 
+		sbis PINA, 5	;if PIN A has the same value as SW6 = pin 5
 			jmp	OFF
-		sbis PINA, 3 	;se PIN A tiver o mesmo valor de SW4= pino 3 
+		sbis PINA, 3 	;if PIN A has the same value as SW4 = pin 3
 			jmp	ON4
-		sbis PINA, 2	;se PIN A tiver o mesmo valor de SW3= pino 2 
+		sbis PINA, 2	;if PIN A has the same value as SW3 = pin 2
 			jmp	ON3
-		sbis PINA, 1	;se PIN A tiver o mesmo valor de SW2= pino 1 
+		sbis PINA, 1	;if PIN A has the same value as SW2 = pin 1
 			jmp	ON2
-		sbis PINA, 0	;se PIN A tiver o mesmo valor de SW1= pino 0 
+		sbis PINA, 0	;if PIN A has the same value as SW1 = pin 0
 			jmp	ON1
 		jmp TEST
 			
