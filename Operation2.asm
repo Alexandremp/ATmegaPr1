@@ -46,35 +46,35 @@
 					
 		teste_sw6:
 
-					ldi r17,7					;iniciação do contador de ligar e desligar LEDs sequencialmente
+					ldi r17,7					;start-up of the counter on and off LEDs sequentially
 		cicloROR:	sec
-					ror r16						;movimenta os bits no registo r16 para a direita
+					ror r16						;moves the bits in register r16 to the right
 					out PORTC,	r16
 					call delay500ms
-					dec r17					;decrementa o contador
-					brne cicloROR			;deixa passar só quando o contador chegar a 0
+					dec r17					;decrements the counter
+					brne cicloROR			;let pass only when the counter reaches 0
 
-					ldi r16,0b11111110	    ;ultíma posição
+					ldi r16,0b11111110	    ;Latest Position
 					out PORTC,r16
-					ldi r23,255				;define r24 como 255
+					ldi r23,255				;define r24 as 255
 
-					call delay_3		;se quiser fazer com que a sequência faça o contrario r24 volta 0
+					call delay_3		;if you want to make the sequence do the opposite r24 turn 0
 
 					cpi r23,0
 					brne final
-					ldi r16,0b11111101		;1ºposição
+					ldi r16,0b11111101		;1st place
 					out PORTC,r16
 					ldi r17,6
 					jmp cicloROL			
 										
 		final:	ldi r25,3    ;contador para piscar 3 vezes
-		final1:	ldi r16,0b11100111			;são ligado os leds D4 e D5
+		final1:	ldi r16,0b11100111			;LEDs D4 and D5 are connected
 				out PORTC, 	r16
 				call delay500ms
 				ldi r16,0b11111111			;são desligados os leds todos
 				out PORTC, 	r16
 				call delay500ms
-				dec r25			;decrementa o contador
+				dec r25			;All LEDs are off
 				brne final1
 				jmp teste_sw1
 				
