@@ -2,7 +2,7 @@
 
 		.include<m128def.inc>
 		
-		;valor dos numeros que são enviados para o display para variáveis
+		;value of the numbers that are sent to the display for
 		.equ ZERO=0xC0
 		.equ UM=0xF9
 		.equ DOIS=0xA4
@@ -53,9 +53,9 @@
 					ldi r16,	9    ;r16=contador
 					ret
 
-		display:					;função responsável para a representação no display
+		display:					;responsible function for on-screen display
 					nove_:	    			
-								cpi  r16, 9			;vê se o contador é 9 
+								cpi  r16, 9			;see if the counter is 9
 								brne oito_			;se não vai para a função do displat oito_
 								ldi  r17, NOVE		;se for o registo r17 vai tomar o valor 0x90 
 								jmp  saida
@@ -106,7 +106,7 @@
 								jmp  saida
 
 					saida:
-								out PORTC,	r17			;envia para a portc o registo r17
+								out PORTC,	r17			;sends portc to register r17
 								ret
 	
 		main:		ldi r21,	LOW(RAMEND)
@@ -115,56 +115,56 @@
 	  				out SPH,	r21
 	  				call ini
 		entradasala: 
-			p1:		sbis PIND,0			;testa S1 ON
+			p1:		sbis PIND,0			;test S1 ON
 					jmp p2
 					jmp p01
-			p2:		sbis PIND,4			;testa S2 ON
+			p2:		sbis PIND,4			;test S2 ON
 					jmp	p3
 					jmp p1
-			p3:		sbic PIND,0			;testa S1 OFF
+			p3:		sbic PIND,0			;test S1 OFF
 					jmp p4
 					jmp p2
-			p4:		sbic PIND,4			;testa S2 OFF
+			p4:		sbic PIND,4			;test S2 OFF
 					jmp luz
 					jmp p3
 			luz:	
-					cbi PORTA,6		;liga o led D7 a dizer que a luz da sala está ligada	
+					cbi PORTA,6		;turns on the LED D7 to say that the room light is on	
 					cpi r16,0
-					brmi p1		;se r16 tiver um digito menor 0 volta para p1
+					brmi p1		;if r16 has a smaller digit 0 back to p1
 					cpi r16,0
-					breq door1		;se r16 estiver a 0 logo sala está cheia vai para a função onde fecha a porta
+					breq door1		;if r16 is at 0 then room is full goes to function where door closes
 					dec r16
 					cpi r16,0
-					brne chdisplay	;se r16 for maior que zero vai enviar o contador para o display
+					brne chdisplay	;if r16 is greater than zero it will send the counter to the display
 					 ;fechar a porta
-			door1:		sbi PORTA,7		;desliga o led D8 dizendo que a sala está cheia e com porta fechada
+			door1:		sbi PORTA,7		;turns off the D8 LED saying that the room is full and with the door closed
 			chdisplay:call display
 					jmp p1
 
 					//saidasala
 
-			p01:	sbis PIND,4			;testa S2 ON
+			p01:	sbis PIND,4			;test S2 ON
 					jmp p02
 					jmp p1
-			p02:	sbis PIND,0			;testa S1 ON
+			p02:	sbis PIND,0			;test S1 ON
 					jmp p03
 					jmp p01
-			p03:	sbic PIND,4			;testa S2 OFF
+			p03:	sbic PIND,4			;test S2 OFF
 					jmp p04
 					jmp p02
-			p04:	sbic PIND,0			;testa S1 OFF
+			p04:	sbic PIND,0			;test S1 OFF
 					jmp luz01
 					jmp p03
 			luz01:	cbi PORTA,7
 					cpi r16,9
-					brpl p1			;se r16 tiver um digito maior 9 volta para p1
+					brpl p1			;if r16 has a larger digit 9 back to p1
 					cpi r16,9		
-					breq luzD01		;se r16 estiver a 9 logo sala está vazia vai para a função onde liga a luz
+					breq luzD01		;if r16 is at 9 then room is empty goes to the function where the light turns on
 					inc r16
-					cpi r16,9		;se r16 for menor que zero vai enviar o contador para o display
+					cpi r16,9		;if r16 is less than zero it will send the counter to the display
 					brmi chdisplay01
 					
-			luzD01:		sbi PORTA,6  ;desligar a luz
+			luzD01:		sbi PORTA,6  ;turn off the light
 			chdisplay01:call display
 					jmp p1
 			
