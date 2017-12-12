@@ -24,19 +24,19 @@
 	  				ldi r16,	HIGH(RAMEND)
 	  				out SPH,	r16
 	  				call ini	
-		teste_sw1:	
+		test_sw1: ;mm	
 					sbis PINA, 	0
 					jmp p1					;moves to p1 if you click sw1
-					jmp  teste_sw1			;restarts the test if you do not click on sw1 goes to p1 if you click on sw1
+					jmp  test_sw1			;restarts the test if you do not click on sw1 goes to p1 if you click on sw1
 		p1:			ldi r16,0b11111110		;first position
 					out PORTC,r16
 					ldi r17,7					;start-up of the counter on and off LEDs sequentially
-		cicloROL:	sec
+		cicleROL: ;mm	sec
 					call delay500ms
 					rol r16					;moves the bits in register r16 to the left
 					out PORTC,r16			
 					dec r17					;decrements the counter
-					brne cicloROL			;let pass only when the counter reaches 0
+					brne cicleROL			;let pass only when the counter reaches 0
 					ldi r16,0b01111111	    ;Latest Position
 					out PORTC,r16
 					ldi r23,255				;set r23 to 255
@@ -44,15 +44,15 @@
 					cpi r23,0
 					brne final
 					
-		teste_sw6:
+		test_sw6: ;mm
 
 					ldi r17,7					;start-up of the counter on and off LEDs sequentially
-		cicloROR:	sec
+		cicleROR: ;mm	sec
 					ror r16						;moves the bits in register r16 to the right
 					out PORTC,	r16
 					call delay500ms
 					dec r17					;decrements the counter
-					brne cicloROR			;let pass only when the counter reaches 0
+					brne cicleROR			;let pass only when the counter reaches 0
 
 					ldi r16,0b11111110	    ;Latest Position
 					out PORTC,r16
@@ -65,7 +65,7 @@
 					ldi r16,0b11111101		;1st place
 					out PORTC,r16
 					ldi r17,6
-					jmp cicloROL			
+					jmp cicleROL			
 										
 		final:	ldi r25,3    ;contador para piscar 3 vezes
 		final1:	ldi r16,0b11100111			;LEDs D4 and D5 are connected
@@ -76,7 +76,7 @@
 				call delay500ms
 				dec r25			;All LEDs are off
 				brne final1
-				jmp teste_sw1
+				jmp test_sw1
 				
 				
 				
@@ -91,16 +91,16 @@ delay500ms:  push r18
 				push r20
 				ldi r20, 68
 
-		ciclo0: ldi r19, 200
+		cicle0: ldi r19, 200
 		
-		ciclo1: ldi r18, 200
+		cicle1: ldi r18, 200
 		
-		ciclo2: dec r18
-				brne ciclo2
+		cicle2: dec r18
+				brne cicle2
 				dec r19
-				brne ciclo1
+				brne cicle1
 				dec r20
-				brne ciclo0
+				brne cicle0
 
 				pop r20
 				pop r19
@@ -114,18 +114,18 @@ delay500ms_2:  push r18
 				push r20
 				ldi r20, 68
 
-		ciclo0_2: ldi r19, 200
+		cicle0_2: ldi r19, 200
 		
-		ciclo1_2: ldi r18, 200
+		cicle1_2: ldi r18, 200
 		
-		ciclo2_2: dec r18
+		cicle2_2: dec r18
 				sbis PINA ,4				;
 				ldi r23,0
-				brne ciclo2_2
+				brne cicle2_2
 				dec r19
-				brne ciclo1_2
+				brne cicle1_2
 				dec r20
-				brne ciclo0_2
+				brne cicle0_2
 
 				pop r20
 				pop r19
@@ -140,18 +140,18 @@ delay_3:		push r18
 				//in	r23, sreg
 				ldi r20, 68
 
-		ciclo0_3: ldi r19, 200
+		cicle0_3: ldi r19, 200
 		
-		ciclo1_3: ldi r18, 200
+		cicle1_3: ldi r18, 200
 		
-		ciclo2_3: dec r18
-				brne ciclo2_3
+		cicle2_3: dec r18
+				brne cicle2_3
 				sbis PINA,0
 				ldi	 r23,0
 				dec r19
-				brne ciclo1_3
+				brne cicle1_3
 				dec r20
-				brne ciclo0_3
+				brne cicle0_3
 
 				//out sreg, r23
 				//pop	r23
