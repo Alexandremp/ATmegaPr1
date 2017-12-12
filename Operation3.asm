@@ -4,15 +4,15 @@
 		
 		;value of the numbers that are sent to the display for
 		.equ ZERO=0xC0
-		.equ UM=0xF9
-		.equ DOIS=0xA4
-		.equ TRES=0xB0
-		.equ QUATRO=0x99
-		.equ CINCO=0x92
-		.equ SEIS=0x82
-		.equ SETE=0xF8
-		.equ OITO=0x80
-		.equ NOVE=0x90
+		.equ ONE=0xF9 
+		.equ TWO=0xA4 
+		.equ THREE=0xB0 
+		.equ FOUR=0x99 
+		.equ FIVE=0x92 
+		.equ SIX=0x82 
+		.equ SEVEN=0xF8 
+		.equ EIGHT=0x80 
+		.equ NINE=0x90 
 		
 		.cseg
 		.org 0x00
@@ -50,62 +50,62 @@
 					ldi r17,	0b11000000
 					out DDRD,	r17
 					out PORTD,	r17
-					ldi r16,	9    ;r16=contador
+					ldi r16,	9    ;r16=counter
 					ret
 
 		display:					;responsible function for on-screen display
-					nove_:	    			
+					nine_:	   			
 								cpi  r16, 9			;see if the counter is 9
-								brne oito_			;se não vai para a função do displat oito_
-								ldi  r17, NOVE		;se for o registo r17 vai tomar o valor 0x90 
-								jmp  saida
-					oito_:
+								brne eight_			;if it does not go to the display function eight_
+								ldi  r17, NINE		;if it is the register r17 will take the value 0x90 
+								jmp  exit
+					eight_:
 								cpi  r16, 8
-								brne sete_
-								ldi  r17, OITO
-								jmp  saida
-					sete_:
+								brne seven_
+								ldi  r17, EIGHT
+								jmp  exit
+					seven_:
 								cpi  r16, 7
-								brne seis_
-								ldi  r17, SETE
-								jmp  saida
-					seis_:
+								brne six_
+								ldi  r17, SEVEN
+								jmp  exit
+					six_:
 					 			cpi  r16, 6
-								brne cinco_
-								ldi  r17, SEIS
-								jmp  saida
-					cinco_:
+								brne five_
+								ldi  r17, SIX
+								jmp  exit
+					five_:
 								cpi  r16, 5
-								brne quatro_
-								ldi  r17, CINCO
-								jmp  saida
-					quatro_:
+								brne four_
+								ldi  r17, FIVE
+								jmp  exit
+					four_: 
 								cpi  r16, 4
-								brne tres_
-								ldi  r17, QUATRO
-								jmp  saida
-					tres_:
+								brne three_
+								ldi  r17, FOUR
+								jmp  exit
+					three_: 
 								cpi  r16, 3
-								brne dois_
-								ldi  r17, TRES
-								jmp  saida
-					dois_:
+								brne two_
+								ldi  r17, THREE
+								jmp  exit
+					two_: 
 								cpi  r16, 2
-								brne um_
-								ldi  r17, DOIS
-								jmp  saida
-					um_:
+								brne one_
+								ldi  r17, TWO
+								jmp  exit
+					one_: 
 								cpi  r16, 1
 								brne zero_
-								ldi  r17, UM
-								jmp  saida
+								ldi  r17, ONE
+								jmp  exit
 					zero_:
 								cpi  r16, 0
 								brne saida
 								ldi  r17, ZERO
-								jmp  saida
+								jmp  exit
 
-					saida:
+					exit:
 								out PORTC,	r17			;sends portc to register r17
 								ret
 	
@@ -114,7 +114,7 @@
 	  				ldi r21,	HIGH(RAMEND)
 	  				out SPH,	r21
 	  				call ini
-		entradasala: 
+		room entries: 
 			p1:		sbis PIND,0			;test S1 ON
 					jmp p2
 					jmp p01
@@ -136,12 +136,12 @@
 					dec r16
 					cpi r16,0
 					brne chdisplay	;if r16 is greater than zero it will send the counter to the display
-					 ;fechar a porta
+					 ;close door
 			door1:		sbi PORTA,7		;turns off the D8 LED saying that the room is full and with the door closed
 			chdisplay:call display
 					jmp p1
 
-					//saidasala
+					//exit room
 
 			p01:	sbis PIND,4			;test S2 ON
 					jmp p02
@@ -159,12 +159,12 @@
 					cpi r16,9
 					brpl p1			;if r16 has a larger digit 9 back to p1
 					cpi r16,9		
-					breq luzD01		;if r16 is at 9 then room is empty goes to the function where the light turns on
+					breq lightD01		;if r16 is at 9 then room is empty goes to the function where the light turns on
 					inc r16
 					cpi r16,9		;if r16 is less than zero it will send the counter to the display
 					brmi chdisplay01
 					
-			luzD01:		sbi PORTA,6  ;turn off the light
+			lightD01:		sbi PORTA,6  ;turn off the light
 			chdisplay01:call display
 					jmp p1
 			
