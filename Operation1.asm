@@ -5,7 +5,7 @@
 .org 0x46
 
 ;*****
-inicio:
+start:
 			ser 	r16 				;The light of LED is OFF
 			out 	PORTC,r16
 			out		DDRC,r16
